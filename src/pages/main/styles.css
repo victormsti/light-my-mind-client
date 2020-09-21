@@ -1,0 +1,106 @@
+.reminder-list {
+    max-width: 700px;
+    margin: 20px auto 0;
+    padding: 0 20px;
+}
+
+.reminder-list article {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.reminder-list article p {
+    font-size: 16px;
+    color: #999;
+    margin-top: 5px;
+    line-height: 24px;
+}
+
+.reminder-list article a {
+    width: 50%;
+    height: 42px;
+    border-radius: 5px;
+    border: 2px solid #6b5b95;
+    background: none;
+    margin-top: 10px;
+    color: #6b5b95;
+    font-weight: bold;
+    font-size: 16px;
+    text-decoration: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.2s;
+}
+
+.reminder-list article a:hover {
+    background: #6b5b95;
+    color: #fff;
+}
+
+.reminder-list .actions {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.reminder-list .actions button {
+    padding: 10px;
+    border-radius: 5px;
+    border: 0;
+    background: #6b5b95;
+    color: #fff;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.reminder-list .actions button:hover {
+    opacity: 0.7;
+}
+
+.reminder-list .actions button[disabled] {
+    opacity: 0.5;
+    cursor: default;
+}
+
+.reminder-list .button-insert{
+    height: 42px;
+    border-radius: 5px;
+    border: 2px solid #6b5b95;
+    background: none;
+    margin-top: 10px;
+    color: #6b5b95;
+    font-weight: bold;
+    font-size: 16px;
+    text-decoration: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.2s;
+    margin-bottom: 20px;
+}
+
+#delete-button{
+    width: 50%;
+    height: 42px;
+    border-radius: 5px;
+    border: 2px solid red;
+    background: none;
+    margin-top: 10px;
+    color: red;
+    font-weight: bold;
+    font-size: 16px;
+    text-decoration: none;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.2s;
+}
+
+#actions-button {
+    display: flex;
+    justify-content: space-between;
+}

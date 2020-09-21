@@ -1,0 +1,41 @@
+.reminder-info {
+    max-width: 700px;
+    margin: 20px auto 0;
+    padding: 20px;
+    background: #fff;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+}
+
+.reminder-info h1{
+    font-size: 32px;
+}
+
+.reminder-info p{
+    color: #666;
+    line-height: 24px;
+    margin-top: 5px;
+}
+
+.reminder-info p a{
+    color: #069;
+}
+
+button {
+    margin-top: 20px;
+    color: #fff;
+    font-size: 16px;
+    background: #6b5b95;
+    height: 56px;
+    border: 0;
+    border-radius: 5px;
+    width: 100%;
+  }
+
+  button:hover {
+    cursor: pointer
+  }
+
+  #error-msg{
+    color: #ff3333;
+  }
