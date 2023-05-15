@@ -1,7 +1,7 @@
 import Axios from 'axios';
 import { getToken } from "./auth";
 
-const api = Axios.create({baseURL : 'http://localhost:3000/api'});
+const api = Axios.create({baseURL : 'http://localhost:3010/api'});
 api.interceptors.request.use(async config => {
     const token = getToken();
     if (token) {

@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, {useState} from "react";
 import { Link, withRouter } from "react-router-dom";
 
 import Logo from "../../logo.svg";
@@ -7,18 +7,19 @@ import { login, userId } from "../../services/auth";
 
 import { Form, Container } from "./styles";
 
-class SignIn extends Component {
-  state = {
+const SignIn = () => {
+
+  const [loginForm, setLoginForm] = useState({
     email: "",
     password: "",
     error: ""
-  };
+  });
 
-  handleSignIn = async e => {
+  const handleSignIn = async e => {
     e.preventDefault();
-    const { email, password } = this.state;
+    const { email, password } = loginForm;
     if (!email || !password) {
-      this.setState({ error: "Fill all inputs to continue" });
+      setLoginForm({ ...loginForm, error: "Fill all inputs to continue" });
     } else {
       try {
         const response = await api.post("/auth", { email, password });
@@ -27,7 +28,8 @@ class SignIn extends Component {
         this.props.history.push("/main");
         window.location.reload(false);
       } catch (err) {
-        this.setState({
+        setLoginForm({
+          ...loginForm,
           error:
             'Invalid Login'
         });
@@ -35,21 +37,20 @@ class SignIn extends Component {
     }
   };
 
-  render() {
     return (
       <Container>
-        <Form onSubmit={this.handleSignIn}>
+        <Form onSubmit={handleSignIn}>
           <img src={Logo} alt="logo" />
-          {this.state.error && <p>{this.state.error}</p>}
+          {loginForm.error && <p>{loginForm.error}</p>}
           <input
             type="email"
             placeholder="E-mail address"
-            onChange={e => this.setState({ email: e.target.value })}
+            onChange={e => setLoginForm({ ...loginForm, email: e.target.value })}
           />
           <input
             type="password"
             placeholder="Password"
-            onChange={e => this.setState({ password: e.target.value })}
+            onChange={e => setLoginForm({ ...loginForm, password: e.target.value })}
           />
           <button type="submit">Login</button>
           <hr />
@@ -57,7 +58,6 @@ class SignIn extends Component {
         </Form>
       </Container>
     );
-  }
 }
 
 export default withRouter(SignIn);
