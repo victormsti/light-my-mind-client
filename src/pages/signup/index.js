@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import { Link, withRouter } from "react-router-dom";
+import React, {useState} from "react";
+import {Link, useHistory, withRouter} from "react-router-dom";
 
 import { login } from "../../services/auth";
 
@@ -9,34 +9,55 @@ import Logo from "../../logo.svg";
 
 import { Form, Container } from "./styles";
 
-class SignUp extends Component {
-  state = {
+const SignUp = () => {
+
+  const history = useHistory();
+
+  const [signupForm, setSignupForm] = useState({
     username: "",
     email: "",
     password: "",
     error: ""
+  });
+
+  const handleSignUp = async e => {
+    e.preventDefault();
+
+    const { username, email, password } = signupForm;
+    if (!username || !email || !password) {
+      setSignupForm({...signupForm, error: "Fill all inputs to sign up" });
+    } else {
+      try {
+        await api.post("/users", { username, email, password });
+        const response = await api.post("/auth", { email, password });
+        login(response.data.token);
+        history.push("/main");
+      } catch (err) {
+        console.log(err);
+        setSignupForm({...signupForm, error: "An error occurred" });
+      }
+    }
   };
 
-  render() {
     return (
       <Container>
-        <Form onSubmit={this.handleSignUp}>
+        <Form onSubmit={handleSignUp}>
           <img src={Logo} alt="Airbnb logo" />
-          {this.state.error && <p>{this.state.error}</p>}
+          {signupForm.error && <p>{signupForm.error}</p>}
           <input
             type="text"
             placeholder="Username"
-            onChange={e => this.setState({ username: e.target.value })}
+            onChange={e => setSignupForm({...signupForm, username: e.target.value })}
           />
           <input
             type="email"
             placeholder="E-mail address"
-            onChange={e => this.setState({ email: e.target.value })}
+            onChange={e => setSignupForm({...signupForm, email: e.target.value })}
           />
           <input
             type="password"
             placeholder="Password"
-            onChange={e => this.setState({ password: e.target.value })}
+            onChange={e => setSignupForm({...signupForm, password: e.target.value })}
           />
           <button type="submit">SignUp for Free</button>
           <hr />
@@ -44,25 +65,6 @@ class SignUp extends Component {
         </Form>
       </Container>
     );
-  }
-
-  handleSignUp = async e => {
-    e.preventDefault();
-    const { username, email, password } = this.state;
-    if (!username || !email || !password) {
-      this.setState({ error: "Fill all inputs to sign up" });
-    } else {
-      try {
-        await api.post("/users", { username, email, password });
-        const response = await api.post("/auth", { email, password });
-        login(response.data.token);
-        this.props.history.push("/main");
-      } catch (err) {
-        console.log(err);
-        this.setState({ error: "An error ocurred" });
-      }
-    }
-  };
 }
 
 export default withRouter(SignUp);

@@ -1,5 +1,6 @@
 import React, {useState} from "react";
-import { Link, withRouter } from "react-router-dom";
+import { Link, withRouter, useHistory } from "react-router-dom";
+
 
 import Logo from "../../logo.svg";
 import api from "../../services/api";
@@ -9,6 +10,8 @@ import { Form, Container } from "./styles";
 
 const SignIn = () => {
 
+  const history = useHistory();
+
   const [loginForm, setLoginForm] = useState({
     email: "",
     password: "",
@@ -17,6 +20,7 @@ const SignIn = () => {
 
   const handleSignIn = async e => {
     e.preventDefault();
+
     const { email, password } = loginForm;
     if (!email || !password) {
       setLoginForm({ ...loginForm, error: "Fill all inputs to continue" });
@@ -25,8 +29,8 @@ const SignIn = () => {
         const response = await api.post("/auth", { email, password });
         login(response.data.token);
         userId(response.data.userId);
-        this.props.history.push("/main");
-        window.location.reload(false);
+
+        history.push("/main");
       } catch (err) {
         setLoginForm({
           ...loginForm,
