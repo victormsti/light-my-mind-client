@@ -4,7 +4,6 @@ import {getUserId, isAuthenticated, logout} from "../../services/auth";
 import "./styles.css";
 
 export default function Main () {
-
     const [headerPage, setHeaderPage] = useState({
         loggedIn: false
     });
