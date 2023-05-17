@@ -1,39 +1,37 @@
-import React,{Component} from "react";
+import React, {Component, useState} from "react";
 import { createHashHistory } from 'history'
-import { isAuthenticated, logout } from "../../services/auth";
+import {getUserId, isAuthenticated, logout} from "../../services/auth";
 import "./styles.css";
 
-export default class Main extends Component{
+export default function Main () {
 
-    state = {
+    const [headerPage, setHeaderPage] = useState({
         loggedIn: false
-    };
+    });
 
-    doLogout = () => {
+    const doLogout = () => {
         logout();
-        this.setState({ loggedIn: false })
+        setHeaderPage({ ...headerPage, loggedIn: false })
         createHashHistory().push("/");
         window.location.reload(false);
     }
 
-    render(){
-
-        if(isAuthenticated()){
-            return(
+    return (
+        <>
+            {isAuthenticated() && (
                 <header >
                     <div className="main-header">Light My Mind</div>
-                <div className="sair">
-                    <button className="sair" onClick={this.doLogout}>Logout</button>
+                    <div className="sair">
+                        <button className="sair" onClick={doLogout}>Logout</button>
                     </div>
                 </header>
-            );
-        }
-        else{
-            return(
+            )
+            }
+            {!isAuthenticated() &&
                 <header >
                     <div className="main-header">Light My Mind</div>
                 </header>
-            );
-        }
-    }
+            }
+        </>
+    );
 }
