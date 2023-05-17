@@ -9,7 +9,6 @@ import { login, userId } from "../../services/auth";
 import { Form, Container } from "./styles";
 
 const SignIn = () => {
-
   const history = useHistory();
 
   const [loginForm, setLoginForm] = useState({

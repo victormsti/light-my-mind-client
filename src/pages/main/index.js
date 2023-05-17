@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {useLayoutEffect, useState} from 'react';
 
 import api from '../../services/api';
 import { getUserId } from "../../services/auth";
@@ -7,86 +7,87 @@ import {Link} from 'react-router-dom';
 
 import './styles.css';
 
-export default class Main extends Component{
+const Main = () => {
 
-    state = {
+    const [mainForm, setMainForm] = useState({
         reminders : [],
         reminderInfo: {},
         page: 1,
         userId: getUserId()
-    };
+    });
 
-    componentDidMount(){
-        this.loadReminders();
-    };
+    useLayoutEffect(() => {
+        loadReminders();
+    });
 
-    loadReminders = async (page = 1) =>{
-        const {userId} = this.state;
+    const loadReminders = async (page = 1) =>{
+        const {userId} = mainForm;
 
         const response = await api.get(`/reminders/users/id/${userId}?page=${page}`);
 
         const {docs, ...reminderInfo} = response.data;
 
-        this.setState({reminders: docs, reminderInfo, page});
+        setMainForm({...mainForm, reminders: docs, reminderInfo, page});
     };
 
-    prevPage = () => {
-        const {page} = this.state;
+    const prevPage = () => {
+        const {page} = mainForm;
 
         if(page ===1) return;
 
         const pageNumber = page - 1;
 
-        this.loadReminders(pageNumber);
+        loadReminders(pageNumber);
     }
 
-    nextPage = () => {
-        const {page, reminderInfo} = this.state;
+    const nextPage = () => {
+        const {page, reminderInfo} = mainForm;
 
         if(page === reminderInfo.pages) return;
 
         const pageNumber = page + 1;
 
-        this.loadReminders(pageNumber);
+        loadReminders(pageNumber);
     }
 
-    deleteReminder = async (id) => {
-          try {
+    const deleteReminder = async (id) => {
+        try {
             await api.delete(`/reminders/${id}`);
             window.location.reload(false);
-          } catch (err) {
-            this.setState({
-              error:
-                err
+        } catch (err) {
+            setMainForm({
+                ...mainForm,
+                error: err
             });
-          }
-      };
+        }
+    };
 
-    render(){
-        const {reminders, page, reminderInfo} = this.state;
-        return (
-            <div className="reminder-list">
-                <div className="button-insert">
+    const {reminders, page, reminderInfo} = mainForm;
+
+    return (
+        <div className="reminder-list">
+            <div className="button-insert">
                 <Link to={'/reminders/new-reminder'}>Insert New Reminder</Link>
-                </div>
-                {reminders.map(reminder => (
-                    <article key={reminder._id}>
-                        <strong>{reminder.title}</strong>
-                <p>{reminder.description}</p>
-                
-                <div id="actions-button">
-                    <Link to={`/reminders/${reminder._id}`}>Access</Link>
-                    <button id="delete-button" onClick={(e) => this.deleteReminder(reminder._id)} 
-                            key={reminder._id}>Delete</button>
-                </div>
-                    </article>
-        ))}
-        
+            </div>
+            {reminders.map(reminder => (
+                <article key={reminder._id}>
+                    <strong>{reminder.title}</strong>
+                    <p>{reminder.description}</p>
+
+                    <div id="actions-button">
+                        <Link to={`/reminders/${reminder._id}`}>Access</Link>
+                        <button id="delete-button" onClick={(e) => deleteReminder(reminder._id)}
+                                key={reminder._id}>Delete</button>
+                    </div>
+                </article>
+            ))}
+
             <div className="actions">
-                <button disabled={page ===1} onClick={this.prevPage}>Previous</button>
-                <button disabled={page === reminderInfo.pages} onClick={this.nextPage}>Next</button> 
+                <button disabled={page ===1} onClick={prevPage}>Previous</button>
+                <button disabled={page === reminderInfo.pages} onClick={nextPage}>Next</button>
             </div>
         </div>
-        );
-    }
+    );
 }
+
+export default Main;

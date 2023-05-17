@@ -10,7 +10,6 @@ import Logo from "../../logo.svg";
 import { Form, Container } from "./styles";
 
 const SignUp = () => {
-
   const history = useHistory();
 
   const [signupForm, setSignupForm] = useState({
