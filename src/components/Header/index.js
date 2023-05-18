@@ -1,12 +1,18 @@
-import React, {Component, useState} from "react";
+import React, {useEffect, useState} from "react";
 import { createHashHistory } from 'history'
-import {getUserId, isAuthenticated, logout} from "../../services/auth";
+import {isAuthenticated, logout} from "../../services/auth";
 import "./styles.css";
 
 export default function Main () {
     const [headerPage, setHeaderPage] = useState({
         loggedIn: false
     });
+
+    useEffect(() =>{
+        if(isAuthenticated()){
+            setHeaderPage({loggedIn: true});
+        }
+    }, [setHeaderPage]);
 
     const doLogout = () => {
         logout();

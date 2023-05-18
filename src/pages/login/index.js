@@ -41,8 +41,8 @@ const SignIn = () => {
   };
 
     return (
-      <Container>
-        <Form onSubmit={handleSignIn}>
+      <Container data-testid="login-container">
+        <Form data-testid="login-form" onSubmit={handleSignIn}>
           <img src={Logo} alt="logo" />
           {loginForm.error && <p>{loginForm.error}</p>}
           <input
@@ -57,7 +57,7 @@ const SignIn = () => {
           />
           <button type="submit">Login</button>
           <hr />
-          <Link to="/signup">SignUp for Free</Link>
+          <Link data-testid="login-link" to="/signup">SignUp for Free</Link>
         </Form>
       </Container>
     );
