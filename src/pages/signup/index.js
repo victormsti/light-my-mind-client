@@ -1,12 +1,8 @@
 import React, {useState} from "react";
 import {Link, useHistory, withRouter} from "react-router-dom";
-
 import { login } from "../../services/auth";
-
 import api from "../../services/api";
-
 import Logo from "../../logo.svg";
-
 import { Form, Container } from "./styles";
 
 const SignUp = () => {
