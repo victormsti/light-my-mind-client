@@ -28,7 +28,6 @@ const SignUp = () => {
         login(response.data.token);
         history.push("/main");
       } catch (err) {
-        console.log(err);
         setSignupForm({...signupForm, error: "An error occurred" });
       }
     }
