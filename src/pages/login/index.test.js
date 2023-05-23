@@ -1,10 +1,13 @@
 import React from 'react';
-import {fireEvent, render} from "@testing-library/react";
-import {BrowserRouter as Router} from 'react-router-dom';
+import {fireEvent, render, screen, waitForElement} from "@testing-library/react";
+import {BrowserRouter as Router, Router as CustomRouter} from 'react-router-dom';
 import SignIn from "./index";
 import userEvent from '@testing-library/user-event';
 import axios from "axios";
 import api from "../../services/api";
+import {createMemoryHistory} from "history";
+import Main from "../main";
+import Login from "./index";
 
 const mockHistoryPush = jest.fn();
 
@@ -78,6 +81,16 @@ describe('login', () =>{
         fireEvent.click(button);
         await Promise.resolve();
         expect(mockHistoryPush).toBeCalledWith('/main');
+    });
+    test('test routing to signup page', async () => {
+        const history = createMemoryHistory();
 
+        await waitForElement(() =>
+            render(<CustomRouter history={history}><Login/></CustomRouter>)
+        );
+
+        await userEvent.click(screen.getByText(/SignUp for Free/));
+
+        expect(history.location.pathname).toEqual('/signup');
     });
 });

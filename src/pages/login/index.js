@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import { Link, withRouter, useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import Logo from "../../logo.svg";
 import api from "../../services/api";
 import { login, userId } from "../../services/auth";

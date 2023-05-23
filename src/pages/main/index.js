@@ -18,7 +18,7 @@ const Main = () => {
 
     useLayoutEffect(() => {
         loadReminders();
-    });
+    }, []);
 
     const loadReminders = async (page = 1) =>{
         const {userId} = mainForm;
@@ -65,8 +65,8 @@ const Main = () => {
     const {reminders, page, reminderInfo} = mainForm;
 
     return (
-        <div className="reminder-list">
-            <div className="button-insert">
+        <div className="reminder-list" data-testid="main-list">
+            <div className="button-insert" data-testid="main-button-insert">
                 <Link to={'/reminders/new-reminder'}>Insert New Reminder</Link>
             </div>
             {reminders.map(reminder => (
@@ -74,17 +74,17 @@ const Main = () => {
                     <strong>{reminder.title}</strong>
                     <p>{reminder.description}</p>
 
-                    <div id="actions-button">
-                        <Link to={`/reminders/${reminder._id}`}>Access</Link>
+                    <div id="actions-button" data-testid="main-actions-button">
+                        <Link to={`/reminders/${reminder._id}`} data-testid="main-link-to-reminder">Access</Link>
                         <button id="delete-button" onClick={(e) => deleteReminder(reminder._id)}
-                                key={reminder._id}>Delete</button>
+                                key={reminder._id} data-testid="main-button-delete-reminder">Delete</button>
                     </div>
                 </article>
             ))}
 
             <div className="actions">
-                <button disabled={page ===1} onClick={prevPage}>Previous</button>
-                <button disabled={page === reminderInfo.pages} onClick={nextPage}>Next</button>
+                <button data-testid="main-previous" disabled={page ===1} onClick={prevPage}>Previous</button>
+                <button data-testid="main-next" disabled={page === reminderInfo.pages} onClick={nextPage}>Next</button>
             </div>
         </div>
     );

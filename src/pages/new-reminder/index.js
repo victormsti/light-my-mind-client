@@ -38,7 +38,7 @@ export default function Reminder () {
     
         return (
             <form onSubmit={createReminder}>
-            <div className="reminder-info">
+            <div className="reminder-info" data-testid="new-reminder-info">
                 <h1>New Reminder</h1>
                 {newReminderForm.error && <p id="error-msg">{newReminderForm.error}</p>}
                 <br></br>
