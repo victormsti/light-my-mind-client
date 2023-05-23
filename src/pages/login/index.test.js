@@ -6,8 +6,8 @@ import userEvent from '@testing-library/user-event';
 import axios from "axios";
 import api from "../../services/api";
 import {createMemoryHistory} from "history";
-import Main from "../main";
 import Login from "./index";
+import expect from "expect";
 
 const mockHistoryPush = jest.fn();
 
@@ -34,7 +34,7 @@ jest.mock('axios', () => {
 });
 
 describe('login', () =>{
-    test('test rendering components', () =>{
+    test('test rendering default components', () =>{
         const {getByTestId} = render(<Router><SignIn /></Router>);
         expect(getByTestId("login-container")).toBeInTheDocument();
         expect(getByTestId("login-form")).toBeInTheDocument();
