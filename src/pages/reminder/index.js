@@ -20,16 +20,17 @@ export default function Reminder () {
         // return () => {
         //     setReminderData({reminder: {}});
         // }
-    }, [params.id, reminderData]);
+    // }, [params.id, reminderData]);
+    }, []);
 
     const {reminder} = reminderData;
 
     return (
-        <div className="reminder-info">
-            <h1>{reminder.title}</h1>
-            <p>{reminder.description}</p>
-            <p><strong>Created At:</strong> {reminder.createdAt}</p>
-            <p><strong>Period: </strong>{reminder.period}</p>
+        <div className="reminder-info" data-testid="reminder-info">
+            <h1 data-testid="reminder-title">{reminder.title}</h1>
+            <p data-testid="reminder-description">{reminder.description}</p>
+            <p data-testid="reminder-createdAt"><strong>Created At:</strong> {reminder.createdAt}</p>
+            <p data-testid="reminder-period"><strong>Period: </strong>{reminder.period}</p>
         </div>
     );
 }

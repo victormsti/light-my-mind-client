@@ -1,13 +1,12 @@
 import React from 'react';
 import {fireEvent, render, screen, waitForElement} from "@testing-library/react";
 import {BrowserRouter as Router, Router as CustomRouter} from 'react-router-dom';
-import SignIn from "./index";
 import userEvent from '@testing-library/user-event';
 import axios from "axios";
 import api from "../../services/api";
 import {createMemoryHistory} from "history";
-import Login from "./index";
 import expect from "expect";
+import SignUp from "./index";
 
 const mockHistoryPush = jest.fn();
 
@@ -33,52 +32,58 @@ jest.mock('axios', () => {
     }
 });
 
-describe('login', () =>{
+const response = {
+    data: {
+        token: 'ABCDE',
+        userId: 123
+    }
+}
+
+describe('signup', () =>{
     test('test rendering default components', () =>{
-        const {getByTestId} = render(<Router><SignIn /></Router>);
-        expect(getByTestId("login-container")).toBeInTheDocument();
-        expect(getByTestId("login-form")).toBeInTheDocument();
-        expect(getByTestId("login-link")).toBeInTheDocument();
+        const {getByTestId} = render(<Router><SignUp /></Router>);
+        expect(getByTestId("signup-container")).toBeInTheDocument();
+        expect(getByTestId("signup-form")).toBeInTheDocument();
+        expect(getByTestId("signup-link")).toBeInTheDocument();
     });
     test('test button with empty inputs', () =>{
-        const {getByTestId} = render(<Router><SignIn /></Router>);
-        const button = getByTestId("login-button");
+        const {getByTestId} = render(<Router><SignUp /></Router>);
+        const button = screen.getByText(/SignUp for Free/)
         expect(button).toBeInTheDocument();
         fireEvent.click(button);
-        expect(getByTestId("login-error-msg")).toHaveTextContent('Fill all inputs to continue');
+        expect(getByTestId("signup-error-msg")).toHaveTextContent('Fill all inputs to sign up');
     });
-    test('test routing to main page', async () => {
-        const response = {
-            data: {
-                token: 'ABCDE',
-                userId: 123
-            }
-        }
-        api.post.mockImplementationOnce(() => Promise.resolve(response));
+    test('test routing to main page', async () =>{
+        api.post.mockImplementation(() => Promise.resolve(response));
 
-        const {getByTestId, queryByTestId} = render(<Router><SignIn/></Router>);
-        const button = getByTestId("login-button");
-        const email = getByTestId("login-input-email");
-        const password = getByTestId("login-input-password");
+        const {getByTestId, queryByTestId} = render(<Router><SignUp /></Router>);
+        const button = screen.getByText(/SignUp for Free/)
+        const username = getByTestId("signup-input-username");
+        const email = getByTestId("signup-input-email");
+        const password = getByTestId("signup-input-password");
         expect(button).toBeInTheDocument();
+        expect(username).toBeInTheDocument();
         expect(email).toBeInTheDocument();
         expect(password).toBeInTheDocument();
+
+        await userEvent.type(username, "test");
         await userEvent.type(email, "test@mail.com");
         await userEvent.type(password, "123456");
-        await fireEvent.click(button);
+        await userEvent.click(button);
+
         await Promise.resolve();
-        expect(queryByTestId("login-error-msg")).toBeNull();
+        expect(queryByTestId("signup-error-msg")).toBeNull();
         expect(mockHistoryPush).toBeCalledWith('/main');
     });
-    test('test routing to signup page', async () => {
+    test('test routing to login page', async () => {
         const history = createMemoryHistory();
 
         await waitForElement(() =>
-            render(<CustomRouter history={history}><Login/></CustomRouter>)
+            render(<CustomRouter history={history}><SignUp/></CustomRouter>)
         );
 
-        await userEvent.click(screen.getByText(/SignUp for Free/));
+        await userEvent.click(screen.getByText(/Login/));
 
-        expect(history.location.pathname).toEqual('/signup');
+        expect(history.location.pathname).toEqual('/');
     });
 });
