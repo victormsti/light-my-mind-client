@@ -48,7 +48,7 @@ describe('signup', () =>{
     });
     test('test button with empty inputs', () =>{
         const {getByTestId} = render(<Router><SignUp /></Router>);
-        const button = screen.getByText(/SignUp for Free/)
+        const button = screen.getByText(/SignUp for Free/);
         expect(button).toBeInTheDocument();
         fireEvent.click(button);
         expect(getByTestId("signup-error-msg")).toHaveTextContent('Fill all inputs to sign up');

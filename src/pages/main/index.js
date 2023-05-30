@@ -53,7 +53,7 @@ const Main = () => {
     const deleteReminder = async (id) => {
         try {
             await api.delete(`/reminders/${id}`);
-            window.location.reload(false);
+            window.location.reload();
         } catch (err) {
             setMainForm({
                 ...mainForm,
