@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Fragment} from 'react';
 import {BrowserRouter, Switch, Route, Redirect} from 'react-router-dom';
 
 import { isAuthenticated } from "./services/auth";
@@ -8,6 +8,7 @@ import Login from './pages/login';
 import NewReminder from './pages/new-reminder';
 import Reminder from './pages/reminder';
 import SignUp from "./pages/signup";
+import LoggedIn from "./components/LoggedIn";
 
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
@@ -15,7 +16,10 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
       {...rest}
       render={props =>
         isAuthenticated() ? (
-          <Component {...props} />
+            <Fragment>
+                <LoggedIn />
+                <Component {...props} />
+            </Fragment>
         ) : (
           <Redirect to={{ pathname: "/", state: { from: props.location } }} />
         )

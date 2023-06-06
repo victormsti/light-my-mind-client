@@ -22,7 +22,19 @@ jest.mock('../../services/auth', () => ({
 }));
 
 describe('header', () =>{
-    test('test rendering component if authenticated', async () =>{
+    test('test rendering components if not authenticated', async () =>{
+        jest.mock('../../services/auth', () => ({
+            ...jest.requireActual('../../services/auth'),
+            isAuthenticated: () => false,
+        }));
+
+        const {getByTestId, queryByText} = await waitForElement(() => render(<Router><Header /></Router>));
+        expect(queryByText("header-main-authenticated")).not.toBeInTheDocument();
+        expect(queryByText("header-logout")).not.toBeInTheDocument();
+        expect(getByTestId("header-main-logged-out")).toBeInTheDocument();
+    });
+
+    test('test rendering components if authenticated', async () =>{
         const {getByTestId} = await waitForElement(() => render(<Router><Header /></Router>));
         expect(getByTestId("header-main-authenticated")).toBeInTheDocument();
         expect(getByTestId("header-logout")).toBeInTheDocument();

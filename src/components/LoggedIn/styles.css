@@ -1,13 +1,14 @@
-.main-header {
-    height: 60px;
+.logout{
     width: 100%;
-    background: #6b5b95;
-    font-size: 18px;
+    height: 20px;
+    background: #20B2AA;
+    font-size: 12px;
     font-weight: bold;
     color: #FFF;
     display: flex;
     justify-content: center;
     align-items: center;
+    border: none;
 }
 
 button:hover{
