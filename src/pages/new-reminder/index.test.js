@@ -4,7 +4,6 @@ import {BrowserRouter as Router, Router as CustomRouter} from 'react-router-dom'
 import userEvent from '@testing-library/user-event';
 import axios from "axios";
 import api from "../../services/api";
-import {createMemoryHistory} from "history";
 import NewReminder from "./index";
 import expect from "expect";
 
@@ -47,7 +46,7 @@ describe('new reminder', () =>{
         fireEvent.click(button);
         expect(getByTestId("new-reminder-error-msg")).toHaveTextContent('Fill all inputs to create a new reminder');
     });
-    test('test button with filled inputs', () =>{
+    test('test button with filled inputs', async () =>{
         const {getByTestId, queryByTestId} = render(<Router><NewReminder /></Router>);
         const button = screen.getByText("Create");
         const title = getByTestId("new-reminder-title");
@@ -60,9 +59,9 @@ describe('new reminder', () =>{
         expect(hourOfDay).toBeInTheDocument();
         userEvent.type(title, "test");
         userEvent.type(description, "testDescription");
-        userEvent.type(period, "Daily");
         userEvent.type(hourOfDay, "07:00");
         fireEvent.click(button);
+        await Promise.resolve();
         expect(queryByTestId("new-reminder-error-msg")).toBeNull();
     });
     test('test routing to main page', async () => {
@@ -81,7 +80,6 @@ describe('new reminder', () =>{
         expect(hourOfDay).toBeInTheDocument();
         userEvent.type(title, "test");
         userEvent.type(description, "testDescription");
-        userEvent.type(period, "Daily");
         userEvent.type(hourOfDay, "07:00");
         fireEvent.click(button);
         await Promise.resolve();

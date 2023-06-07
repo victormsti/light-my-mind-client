@@ -1,17 +1,21 @@
 import React, {useState} from 'react';
 import api from '../../services/api';
 import { getUserId } from "../../services/auth";
-import './styles.css';
+import './styles.scss';
+import "react-widgets/styles.css";
 import {useHistory} from "react-router-dom";
+import {DropdownList} from "react-widgets/cjs";
 
 export default function NewReminder () {
+    let frequency = ['Daily', 'Weekly', 'Monthly', 'Yearly'];
+    // const [value, setValue] = useState('Daily')
     const history = useHistory();
 
     const [newReminderForm, setNewReminderForm] = useState({
         error: "",
         title: "",
         description: "",
-        period: "",
+        period: "Daily",
         hour: "",
         userId: getUserId()
     });
@@ -59,15 +63,14 @@ export default function NewReminder () {
                         onChange={e => setNewReminderForm({ ...newReminderForm, description: e.target.value })}
                     ></textarea>
                 </p>
-                <p><strong>Period: </strong> 
-                    <input
-                        data-testid="new-reminder-period"
-                        type="text" 
-                        placeholder="Daily"
-                        onChange={e => setNewReminderForm({ ...newReminderForm, period: e.target.value })}
-                    ></input>
-                </p>
-                <p><strong>Hour of Day: </strong> 
+                <p><strong>Frequency: </strong></p>
+                <DropdownList
+                    data-testid="new-reminder-period"
+                    value={newReminderForm.period}
+                    onChange={value => setNewReminderForm({ ...newReminderForm, period: value })}
+                    data={frequency}
+                />
+                <p><strong>Hour of Day: </strong>
                     <input
                         data-testid="new-reminder-hour"
                         type="time" 

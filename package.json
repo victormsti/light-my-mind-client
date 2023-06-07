@@ -16,6 +16,8 @@
     "react-dom": "^16.13.1",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.3",
+    "react-widgets": "^5.8.4",
+    "sass": "^1.62.1",
     "styled-components": "^5.2.0"
   },
   "scripts": {
